@@ -18,15 +18,17 @@
 
 <body class="hold-transition login-page">
 
+    <?= validation_list_errors() ?>
 
     <div class="error" data-err="<?= session('error') ?>"></div>
+    <div class="succes" data-err="<?= session("success") ?>"></div>
     <div class="login-box">
 
         <div class="card">
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Sign in</p>
 
-                <form method="POST" action="login">
+                <form method="POST" action="login/cek">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control  <?= isset($_SESSION['_ci_validation_errors']) ? isset($_SESSION['_ci_validation_errors']['username']) ? "is-invalid" : "" : ""; ?>" placeholder="Please Insert You Username" name="username">
                         <div class="input-group-append">

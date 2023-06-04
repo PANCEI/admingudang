@@ -6,36 +6,33 @@ use CodeIgniter\Model;
 
 class UserModel extends Model
 {
-    protected $DBGroup          = 'default';
-    protected $table            = 'users';
-    protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
-    protected $returnType       = 'array';
-    protected $useSoftDeletes   = false;
-    protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $table            = 'user';
+    protected $primaryKey       = 'id_user';
+    protected $allowedFields    = ['id_akses', 'username', 'password', 'telpon', 'aktif', 'foto'];
 
     // Dates
-    protected $useTimestamps = false;
-    protected $dateFormat    = 'datetime';
-    protected $createdField  = 'created_at';
-    protected $updatedField  = 'updated_at';
-    protected $deletedField  = 'deleted_at';
+    protected $useTimestamps = true;
+    protected $createdField  = 'user_created_at';
+    protected $updatedField  = 'user_updated_at';
 
-    // Validation
-    protected $validationRules      = [];
-    protected $validationMessages   = [];
-    protected $skipValidation       = false;
-    protected $cleanValidationRules = true;
+    // join table 
+    protected $table2   = "akses";
+    protected $on       = "akses.id_akses = user.id_akses";
+    protected $table3 = "gudang";
+    protected $on2 = "gudang.id_gudang = user.id_gudang";
 
-    // Callbacks
-    protected $allowCallbacks = true;
-    protected $beforeInsert   = [];
-    protected $afterInsert    = [];
-    protected $beforeUpdate   = [];
-    protected $afterUpdate    = [];
-    protected $beforeFind     = [];
-    protected $afterFind      = [];
-    protected $beforeDelete   = [];
-    protected $afterDelete    = [];
+    public function getUsername($username)
+    {
+        return $this->where(['username' => $username])
+            ->join($this->table2, $this->on)
+            ->join($this->table3, $this->on2)
+            ->first();
+    }
+    public function getUserNameById($id)
+    {
+        return $this->where(['id_user' => $id])
+            ->join($this->table2, $this->on)
+            ->join($this->table3, $this->on2)
+            ->first();
+    }
 }
